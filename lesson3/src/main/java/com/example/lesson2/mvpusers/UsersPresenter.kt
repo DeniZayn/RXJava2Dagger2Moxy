@@ -12,10 +12,15 @@ class UsersPresenter(
 ): MvpPresenter<UsersView>() {
 
     override fun onFirstViewAttach() {
-        userRepository
-            .getUsers()
-            .let(viewState::showUsers)
-    }
+
+        userRepository.getIds()
+            .flatMap { userRepository.getUserById(it) }
+            .subscribe(
+                { result -> viewState.showUsers(listOf(result)) },
+                {}
+            )
+
+}
 
     fun displayUser(user: GitHubUser) =
         router.navigateTo(UserScreen(user.login))
