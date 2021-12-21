@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">RXJava2Dagger2Moxy</string>
+    <string name="counter_one">счетчик 1</string>
+    <string name="counter_two">счетчик 2</string>
+    <string name="counter_three">счетчик 3</string>
+</resources>
