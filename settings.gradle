@@ -9,3 +9,5 @@ dependencyResolutionManagement {
 rootProject.name = "RXJava2Dagger2Moxy"
 include ':app'
 include ':lesson3'
+include ':lesson4'
+include ':lesson5'
