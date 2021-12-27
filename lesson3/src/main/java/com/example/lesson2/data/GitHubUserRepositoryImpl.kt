@@ -1,29 +1,32 @@
 package com.example.lesson2.data
 
-import io.reactivex.rxjava3.core.Observable
+
+import com.example.lesson2.data.retrofit.GitHubApiFactory
+import com.example.lesson2.data.room.RoomFactory
+import io.reactivex.rxjava3.core.Single
 
 
 class GitHubUserRepositoryImpl : GitHubUserRepository {
 
-    private val users = listOf(
-        GitHubUser("login1", "1"),
-        GitHubUser("login2","2"),
-        GitHubUser("login3","3"),
-        GitHubUser("login4","4"),
-        GitHubUser("login5","5"),
-    )
+    private val gitHubApi = GitHubApiFactory.create()
+    private val roomDb = RoomFactory.create().getGitHubUserDao()
 
-    override fun getUsers(): Observable<List<GitHubUser>> {
-        return Observable.just(users)
+    override fun getUsers(): Single<List<GitHubUser>> {
+        return roomDb.getUsers()
+            .flatMap {
+                if (it.isEmpty()) {
+                    gitHubApi.fetchUsers()
+                        .map { resultFromServer ->
+                            roomDb.saveUser(resultFromServer)
+                            resultFromServer
+                        }
+                } else {
+                    Single.just(it)
+                }
+            }
     }
 
-    override fun getIds(): Observable<String> {
-        val ids = listOf("1","2","3","4","2")
-        return Observable.fromIterable(ids)
-    }
-
-    override fun getUserById(userId: String): Observable<GitHubUser>{
-        return Observable.just(users)
-            .map { it.findLast { it.id == userId} }
+    override fun getUserByLogin(userId: String): GitHubUser? {
+        return null
     }
 }

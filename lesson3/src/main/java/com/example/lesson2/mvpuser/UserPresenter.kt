@@ -11,8 +11,8 @@ class UserPresenter(
 ) : MvpPresenter<UserView>() {
 
     override fun onFirstViewAttach() {
-//        userRepository
-//            .getUserByLogin(userLogin)
-//            ?.let(viewState::showUser)
+        userRepository
+            .getUserByLogin(userLogin)
+            ?.let(viewState::showUser)
     }
 }

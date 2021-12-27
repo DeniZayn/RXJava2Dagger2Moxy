@@ -36,7 +36,7 @@ class UsersFragment: MvpAppCompatFragment(R.layout.view_users), UsersView, Users
     }
 
     override fun onUserPicked(user: GitHubUser) =
-        presenter.displayUser(user)
+        presenter.goToNextScreen(user.login!!)
 
     companion object {
         fun newInstance(): Fragment = UsersFragment()
