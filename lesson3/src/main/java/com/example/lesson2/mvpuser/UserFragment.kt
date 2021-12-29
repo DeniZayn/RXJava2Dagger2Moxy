@@ -7,8 +7,6 @@ import com.example.lesson2.R
 import com.example.lesson2.data.GitHubUser
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import com.example.lesson2.data.GitHubUserRepositoryFactory
-import com.example.lesson2.App.Navigation.router
 import com.example.lesson2.databinding.ViewUserBinding
 
 
@@ -23,8 +21,8 @@ class UserFragment: MvpAppCompatFragment(R.layout.view_user), UserView {
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(
             userLogin = userLogin,
-            userRepository = GitHubUserRepositoryFactory.create(),
-            router = router
+//            userRepository = GitHubUserRepositoryFactory.create(),
+//            router = router
         )
     }
 
