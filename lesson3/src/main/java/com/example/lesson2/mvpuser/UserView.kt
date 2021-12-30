@@ -6,9 +6,10 @@ import moxy.viewstate.strategy.alias.SingleState
 
 interface UserView : MvpView {
 
-    // Показывает информацию о пользователе.@param user пользователь
+    @SingleState
+    fun showPhoto(url: String)
 
     @SingleState
-    fun showUser(user: GitHubUser)
+    fun showName(name: String)
 
 }

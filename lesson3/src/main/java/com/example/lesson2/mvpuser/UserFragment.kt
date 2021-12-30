@@ -3,37 +3,32 @@ package com.example.lesson2.mvpuser
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.example.lesson2.App
 import com.example.lesson2.R
-import com.example.lesson2.data.GitHubUser
+import com.example.lesson2.databinding.UserFragmentViewBinding
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import com.example.lesson2.databinding.ViewUserBinding
+import moxy.MvpFacade.init
 
 
-class UserFragment: MvpAppCompatFragment(R.layout.view_user), UserView {
+class UserFragment: MvpAppCompatFragment(R.layout.user_fragment_view), UserView {
 
-    private lateinit var viewBinding: ViewUserBinding
+    private lateinit var viewBinding: UserFragmentViewBinding
 
     private val userLogin: String by lazy {
         arguments?.getString(ARG_USER_LOGIN).orEmpty()
     }
 
     private val presenter: UserPresenter by moxyPresenter {
-        UserPresenter(
-            userLogin = userLogin,
-//            userRepository = GitHubUserRepositoryFactory.create(),
-//            router = router
-        )
+        UserPresenter().apply {
+            init(userLogin)
+            App.instance.component.provideUserComponent().build().inject(this)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding = ViewUserBinding.bind(view)
-        viewBinding.userLogin.text = userLogin
-    }
-
-    override fun showUser(user: GitHubUser) {
-        viewBinding.userLogin.text = user.login
+        viewBinding = UserFragmentViewBinding.bind(view)
     }
 
     companion object {
@@ -45,5 +40,13 @@ class UserFragment: MvpAppCompatFragment(R.layout.view_user), UserView {
                     putString(ARG_USER_LOGIN, userId)
                 }
             }
+    }
+
+    override fun showPhoto(url: String) {
+        presenter.loadPhoto(url, viewBinding.image)
+    }
+
+    override fun showName(name: String) {
+        viewBinding.textView.text = name
     }
 }

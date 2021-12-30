@@ -30,7 +30,7 @@ import javax.inject.Inject
             }
     }
 
-    override fun getUserByLogin(userId: String): GitHubUser? {
-        return null
+    override fun getUserByLogin(userId: String): Single<GitHubUser> {
+        return gitHubApi.fetchUserByLogin(userId)
     }
 }

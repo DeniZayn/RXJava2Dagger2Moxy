@@ -3,6 +3,7 @@ package com.example.lesson2.di
 import android.content.Context
 import com.example.lesson2.MainActivity
 import com.example.lesson2.mvpuser.UserPresenter
+import com.example.lesson2.mvpuser.di.UserComponent
 import com.example.lesson2.mvpusers.UsersPresenter
 import dagger.BindsInstance
 import dagger.Component
@@ -19,6 +20,7 @@ import javax.inject.Singleton
     ])
 interface ApplicationComponent {
 
+    fun provideUserComponent(): UserComponent.Builder
 
     @Component.Builder
     interface Builder {
